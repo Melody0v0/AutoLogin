@@ -1,4 +1,3 @@
-
 import os
 import platform
 import sys
@@ -23,9 +22,6 @@ class LoginWindow(QWidget):
         self.credentials_file = self.get_credentials_file_path()
         self.load_credentials()
         self.load_auto_start_setting()
-
-
-
 
     def init_ui(self):
         self.setWindowTitle('登录')
@@ -88,9 +84,6 @@ class LoginWindow(QWidget):
         self.tray_icon.activated.connect(self.tray_icon_clicked)
         self.tray_icon.show()
 
-
-
-
         self.setLayout(layout)
 
         # 添加定时器，每10秒执行一次登录操作
@@ -144,7 +137,7 @@ class LoginWindow(QWidget):
             self.timer.start(10000)
             self.timer_started = True
         if self.remember_password_checkbox.isChecked():
-            self.save_credentials(username, password)
+            self.save_credentials(username, password, self.operator_combo.currentIndex())
         else:
             self.delete_credentials()
 
@@ -168,9 +161,9 @@ class LoginWindow(QWidget):
         os.makedirs(app_folder, exist_ok=True)
         return os.path.join(app_folder, "AutoStartSetting.txt")
 
-    def save_credentials(self, username, password):
+    def save_credentials(self, username, password, operator):
         with open(self.credentials_file, "w") as file:
-            file.write(f"{username}\n{password}")
+            file.write(f"{username}\n{password}\n{operator}")
 
     def delete_credentials(self):
         try:
@@ -187,9 +180,11 @@ class LoginWindow(QWidget):
             with open(self.credentials_file, "r") as file:
                 username = file.readline().strip()
                 password = file.readline().strip()
+                operator = int(file.readline().strip())
                 self.username_input.setText(username)
                 self.password_input.setText(password)
                 self.remember_password_checkbox.setChecked(True)
+                self.operator_combo.setCurrentIndex(operator)
                 self.handle_login()
         except FileNotFoundError:
             pass
