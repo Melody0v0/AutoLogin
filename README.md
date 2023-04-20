@@ -6,7 +6,7 @@ AutoLogin_njtech 是一款自动登录校园网的应用程序。该软件可以
 
 ## 使用方法
 
-请点击此处跳转下载。
+[请点击此处跳转下载。](https://github.com/Melody0v0/AutoLogin/releases/tag/Asserts)
 
 在下载完成后，运行此软件，你应该会看到如下界面
 
